@@ -2,7 +2,17 @@
 
 var Engine = function () {
 
-// private attributes and methods
+    var game_board = new Array(6);
 
-// public methods
+
+    this.init = function (player_begin) {
+
+        var iterator;
+
+
+
+        for (iterator = 0; iterator < 6; iterator++) {
+            game_board[iterator] = new Array(6);
+        }
+    };
 };
