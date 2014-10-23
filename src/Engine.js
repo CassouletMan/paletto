@@ -9,10 +9,13 @@ var Engine = function () {
 
         var iterator;
 
-
-
         for (iterator = 0; iterator < 6; iterator++) {
             game_board[iterator] = new Array(6);
         }
     };
+
+    this.juxtapo = function() {
+
+
+    }
 };
