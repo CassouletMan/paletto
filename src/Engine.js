@@ -1,10 +1,15 @@
 'use strict';
 
+// BY DELPLANQUE AND DELAHAYE
+
 var Engine = function () {
 
     var game_board = new Array(6);
+    var current_player;
 
     this.init = function (player_begin) {
+
+        current_player= "Joueur1";
 
         var iterator;
 
@@ -58,6 +63,15 @@ var Engine = function () {
     };
 
 
+    this.getCurrentPlayer = function(){
+        return current_player;
+    };
+
+    this.getColorAt = function(i,j) {
+        return game_board[i][j];
+    };
+
+
     this.juxtapo = function() {
 
 
@@ -90,4 +104,6 @@ var Engine = function () {
 
         return true;
     }
+
+
 };
