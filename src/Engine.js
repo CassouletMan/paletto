@@ -6,6 +6,10 @@ var Engine = function () {
 
     var game_board = new Array(6);
     var current_player;
+    var tabJoueur1 = new Array(36);
+    var tabJoueur2 = new Array(36);
+
+
 
     this.init = function (player_begin) {
 
@@ -67,9 +71,46 @@ var Engine = function () {
         return current_player;
     };
 
+
     this.getColorAt = function(i,j) {
-        return game_board[i][j];
+
+        var I;
+
+        switch (i){
+            case 'A': I=0; break;
+            case 'B': I=1; break;
+            case 'C': I=2; break;
+            case 'D': I=3; break;
+            case 'E': I=4; break;
+            case 'F': I=5; break;
+        }
+
+        return game_board[I][j-1];
     };
+
+
+    this.takeAt = function(i,j) {
+
+        var I;
+
+        switch (i){
+            case 'A': I=0; break;
+            case 'B': I=1; break;
+            case 'C': I=2; break;
+            case 'D': I=3; break;
+            case 'E': I=4; break;
+            case 'F': I=5; break;
+        }
+
+        if(current_player=="Joueur1")
+            tabJoueur1.push(game_board[I][j-1]);
+        else
+            tabJoueur2.push(game_board[I][j-1]);
+
+        game_board[I][j-1]=null;
+    };
+
+
 
 
     this.juxtapo = function() {
@@ -103,7 +144,34 @@ var Engine = function () {
         }
 
         return true;
+    };
+
+    this.count =function(){
+        var i;
+        var j;
+        var res=0;
+
+        for(i = 0; i < 6; i++) {
+            for (j = 0; j < 6; j++) {
+                if(game_board[i][j]!=null)
+                    res++;
+            }
+        }
+
+        return res;
     }
 
+    this.countColorOfCurrentPlayer = function(color)
+    {
+        var res=0;
+
+        for(var i =0 ; i< tabJoueur1.length;i++)
+        {
+            if(tabJoueur1[i]==color)
+                res++;
+        }
+
+        return res;
+    }
 
 };
