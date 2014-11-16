@@ -4,11 +4,13 @@
 
 var Engine = function () {
 
-    var game_board = new Array(6);
+    var game_board;
     var current_player;
     var tabJoueur1 = new Array();
     var tabJoueur2 = new Array();
     var JetonJouable = new Array();
+
+    var sizeGameBoard=6;
 
     var nbnoir;
     var nbvert;
@@ -19,10 +21,10 @@ var Engine = function () {
 
 
 
-    this.init = function (player_begin) {
+    this.init = function () {
 
         current_player= "Joueur1";
-
+        game_board = new Array(6);
         var iterator;
 
         for (iterator = 0; iterator < 6; iterator++) {
@@ -70,6 +72,65 @@ var Engine = function () {
         game_board[3][5]= "rouge";
         game_board[4][5]= "vert";
         game_board[5][5]= "noir";
+
+
+        nbnoir = this.countColorOnGameBoard("noir");
+        nbvert = this.countColorOnGameBoard("vert");
+        nbrouge = this.countColorOnGameBoard("rouge");
+        nbjaune = this.countColorOnGameBoard("jaune");
+        nbblanc = this.countColorOnGameBoard("blanc");
+        nbbleu = this.countColorOnGameBoard("bleu");
+
+
+        this.listOfPossibilities();
+    };
+
+    this.initWithSize = function (size) {
+
+        sizeGameBoard=size;
+        current_player= "Joueur1";
+        game_board = new Array(sizeGameBoard);
+
+        var iterator;
+
+        for (iterator = 0; iterator < size; iterator++) {
+            game_board[iterator] = new Array(sizeGameBoard);
+        }
+
+        for(var i = 0; i < sizeGameBoard; i++) {
+            for (var j = 0; j < sizeGameBoard; j++) {
+
+                do {
+                    var colorAlea = Math.floor(Math.random() * 6);
+                    var color;
+                    switch (colorAlea) {
+                        case 0:
+                            color = "noir";
+                            break;
+                        case 1:
+                            color = "bleu";
+                            break;
+                        case 2:
+                            color = "blanc";
+                            break;
+                        case 3:
+                            color = "rouge";
+                            break;
+                        case 4:
+                            color = "vert";
+                            break;
+                        case 5:
+                            color = "jaune";
+                            break;
+
+                    }
+
+                    game_board[i][j] = color;
+
+                }while(this.juxtapoOneColor(i,j)==false);
+
+            }
+        }
 
 
         nbnoir = this.countColorOnGameBoard("noir");
@@ -160,6 +221,8 @@ var Engine = function () {
             case 'D': I=3; break;
             case 'E': I=4; break;
             case 'F': I=5; break;
+            case 'G': I=6; break;
+            case 'H': I=7; break;
         }
 
         return game_board[I][j-1];
@@ -177,6 +240,8 @@ var Engine = function () {
             case 'D': I=3; break;
             case 'E': I=4; break;
             case 'F': I=5; break;
+            case 'G': I=6; break;
+            case 'H': I=7; break;
         }
 
         if(current_player=="Joueur1")
@@ -197,7 +262,27 @@ var Engine = function () {
         game_board[i][j]="VIDE";
     };
 
+    this.juxtapoOneColor = function (i,j)
+    {
+        if(j+1<=5)
+            if(game_board[i][j] == game_board[i][j+1])
+                return false;
 
+        if(j-1>=0)
+            if(game_board[i][j] == game_board[i][j-1])
+                return false;
+
+
+        if(i+1<=5)
+            if(game_board[i][j] == game_board[i+1][j])
+                return false;
+
+        if(i-1>=0)
+            if(game_board[i][j] == game_board[i-1][j])
+                return false;
+
+        return true;
+    };
 
 
     this.juxtapo = function() {
@@ -206,9 +291,9 @@ var Engine = function () {
         var i;
         var j;
 
-        for(i = 0; i < 6; i++)
+        for(i = 0; i < sizeGameBoard; i++)
         {
-            for(j = 0; j < 6; j++)
+            for(j = 0; j < sizeGameBoard; j++)
             {
                 if(j+1<=5)
                     if(game_board[i][j] == game_board[i][j+1])
@@ -238,8 +323,8 @@ var Engine = function () {
         var j;
         var res=0;
 
-        for(i = 0; i < 6; i++) {
-            for (j = 0; j < 6; j++) {
+        for(i = 0; i < sizeGameBoard; i++) {
+            for (j = 0; j < sizeGameBoard; j++) {
                 if(game_board[i][j]!="VIDE")
                     res++;
             }
@@ -309,8 +394,8 @@ var Engine = function () {
 
     this.countColorOnGameBoard = function(color){
         var rst=0;
-        for(var i = 0; i < 6; i++) {
-            for (var j = 0; j < 6; j++) {
+        for(var i = 0; i < sizeGameBoard; i++) {
+            for (var j = 0; j < sizeGameBoard; j++) {
                 if (game_board[i][j] == color)
                     rst++;
             }
@@ -329,9 +414,9 @@ var Engine = function () {
         var j;
         var rst=0;
 
-        for(i = 0; i < 6; i++)
+        for(i = 0; i < sizeGameBoard; i++)
         {
-            for(j = 0; j < 6; j++) {
+            for(j = 0; j < sizeGameBoard; j++) {
 
                 if (game_board[i][j] != "VIDE") {
 
