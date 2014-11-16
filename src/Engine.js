@@ -10,6 +10,13 @@ var Engine = function () {
     var tabJoueur2 = new Array();
     var JetonJouable = new Array();
 
+    var nbnoir;
+    var nbvert;
+    var nbrouge;
+    var nbjaune;
+    var nbblanc;
+    var nbbleu;
+
 
 
     this.init = function (player_begin) {
@@ -65,8 +72,35 @@ var Engine = function () {
         game_board[5][5]= "noir";
 
 
+        nbnoir = this.countColorOnGameBoard("noir");
+        nbvert = this.countColorOnGameBoard("vert");
+        nbrouge = this.countColorOnGameBoard("rouge");
+        nbjaune = this.countColorOnGameBoard("jaune");
+        nbblanc = this.countColorOnGameBoard("blanc");
+        nbbleu = this.countColorOnGameBoard("bleu");
+
+
+        this.listOfPossibilities();
     };
 
+
+    this.CurrentPlayerWinOrNot = function (){
+
+
+        var nbnoirCP = this.countColorOfCurrentPlayer("noir");
+        var nbvertCP = this.countColorOfCurrentPlayer("vert");
+        var nbrougeCP = this.countColorOfCurrentPlayer("rouge");
+        var nbjauneCP = this.countColorOfCurrentPlayer("jaune");
+        var nbblancCP = this.countColorOfCurrentPlayer("blanc");
+        var nbbleuCP = this.countColorOfCurrentPlayer("bleu");
+
+        if(nbblancCP == nbblanc || nbbleuCP == nbbleu || nbrougeCP == nbrouge || nbnoirCP == nbnoir || nbjauneCP == nbjaune || nbvertCP == nbvert || this.count() == 0)
+        {
+            return "WIN";
+        }
+
+        return "NOT FINISH";
+    };
 
     this.getCurrentPlayer = function(){
         return current_player;
@@ -78,9 +112,12 @@ var Engine = function () {
             current_player = "Joueur2";
         else
             current_player = "Joueur1";
+
+        JetonJouable=new Array();
+        this.listOfPossibilities();
     };
 
-    this.showtabPlayers = function ()
+    this.show_tab_players = function ()
     {
         console.log("Joueur 1 :");
         for (var i = 0; i < tabJoueur1.length; i++) {
@@ -100,7 +137,7 @@ var Engine = function () {
     };
 
 
-    this.showlistOfJetonJouable = function ()
+    this.show_list_jeton_jouable = function ()
     {
         console.log("Liste des jetons jouable:");
         for (var i = 0; i < JetonJouable.length; i=i+3) {
@@ -147,7 +184,7 @@ var Engine = function () {
         else
             tabJoueur2.push(game_board[I][j-1]);
 
-        game_board[I][j-1]=null;
+        game_board[I][j-1]="VIDE";
     };
 
     this.takeAtWithCoordNumber = function(i,j) {
@@ -157,7 +194,7 @@ var Engine = function () {
         else
             tabJoueur2.push(game_board[i][j]);
 
-        game_board[i][j]=null;
+        game_board[i][j]="VIDE";
     };
 
 
@@ -203,7 +240,7 @@ var Engine = function () {
 
         for(i = 0; i < 6; i++) {
             for (j = 0; j < 6; j++) {
-                if(game_board[i][j]!=null)
+                if(game_board[i][j]!="VIDE")
                     res++;
             }
         }
@@ -256,11 +293,11 @@ var Engine = function () {
         var j;
         var rst=0;
 
-        for(i = 0; i < JetonJouable.length; i++) {
+        for(i = 0; i < JetonJouable.length; i=i+3) {
 
             //console.log(JetonJouable[i]);
 
-            if(color == JetonJouable[i]) {
+            if(JetonJouable[i] == color) {
                 this.takeAtWithCoordNumber(JetonJouable[i+1], JetonJouable[i+2]);
 
                 //console.log(JetonJouable[i+1]);
@@ -270,6 +307,21 @@ var Engine = function () {
         }
     };
 
+    this.countColorOnGameBoard = function(color){
+        var rst=0;
+        for(var i = 0; i < 6; i++) {
+            for (var j = 0; j < 6; j++) {
+                if (game_board[i][j] == color)
+                    rst++;
+            }
+        }
+        return rst;
+    };
+
+
+    this.numberOfPossibilities = function(){
+        return (JetonJouable.length/3);
+    };
 
     this.listOfPossibilities = function() {
 
@@ -281,21 +333,21 @@ var Engine = function () {
         {
             for(j = 0; j < 6; j++) {
 
-                if (game_board[i][j] != null) {
+                if (game_board[i][j] != "VIDE") {
 
                     rst = 0;
 
                     if (j + 1 < 6)
-                        if (game_board[i][j + 1] != null)
+                        if (game_board[i][j + 1] != "VIDE")
                             rst++;
                     if (j - 1 >= 0)
-                        if (game_board[i][j - 1] != null)
+                        if (game_board[i][j - 1] != "VIDE")
                             rst++;
                     if (i + 1 < 6)
-                        if (game_board[i + 1][j] != null)
+                        if (game_board[i + 1][j] != "VIDE")
                             rst++;
                     if (i - 1 >= 0)
-                        if (game_board[i - 1][j] != null)
+                        if (game_board[i - 1][j] != "VIDE")
                             rst++;
 
                     //console.log(rst);
@@ -317,7 +369,6 @@ var Engine = function () {
 
         //console.log(JetonJouable.length/3);
 
-        return (JetonJouable.length/3);
     };
 
 };
