@@ -8,7 +8,7 @@ var Engine = function () {
     var current_player;
     var tabJoueur1 = new Array();
     var tabJoueur2 = new Array();
-    var nbJetonJouable = new Array();
+    var JetonJouable = new Array();
 
 
 
@@ -80,6 +80,37 @@ var Engine = function () {
             current_player = "Joueur1";
     };
 
+    this.showtabPlayers = function ()
+    {
+        console.log("Joueur 1 :");
+        for (var i = 0; i < tabJoueur1.length; i++) {
+
+            console.log(tabJoueur1[i]);
+
+        }
+
+        console.log("\n");
+        console.log("Joueur 2 :");
+        for (var i = 0; i < tabJoueur2.length; i++) {
+
+            console.log(tabJoueur2[i]);
+
+        }
+        console.log("\n");
+    };
+
+
+    this.showlistOfJetonJouable = function ()
+    {
+        console.log("Liste des jetons jouable:");
+        for (var i = 0; i < JetonJouable.length; i=i+3) {
+
+            console.log(JetonJouable[i]);
+            console.log(JetonJouable[i+1]);
+            console.log(JetonJouable[i+2]);
+        }
+
+    };
 
     this.getColorAt = function(i,j) {
 
@@ -206,12 +237,12 @@ var Engine = function () {
         return res;
     };
 
-    this.ColorOfNbJetonJouable = function(color)
+    this.ColorOfJetonJouable = function(color)
     {
 
-        for(var i =0 ; i< nbJetonJouable.length;i++)
+        for(var i =0 ; i< JetonJouable.length;i=i+3)
         {
-            if(nbJetonJouable[i]==color)
+            if(JetonJouable[i]==color)
                 return true;
         }
 
@@ -220,19 +251,20 @@ var Engine = function () {
 
     this.chooseColor = function(color)
     {
+
         var i;
         var j;
         var rst=0;
 
-        for(i = 0; i < nbJetonJouable; i=i+3) {
+        for(i = 0; i < JetonJouable.length; i++) {
 
-            console.log(nbJetonJouable[i]);
+            //console.log(JetonJouable[i]);
 
-            if(color === nbJetonJouable[i]) {
-                this.takeAtWithCoordNumber(nbJetonJouable[i + 1], nbJetonJouable[i + 2]);
+            if(color == JetonJouable[i]) {
+                this.takeAtWithCoordNumber(JetonJouable[i+1], JetonJouable[i+2]);
 
-                console.log(nbJetonJouable[i + 1]);
-                console.log(nbJetonJouable[i + 2]);
+                //console.log(JetonJouable[i+1]);
+                //console.log(JetonJouable[i+2]);
 
             }
         }
@@ -253,13 +285,13 @@ var Engine = function () {
 
                     rst = 0;
 
-                    if (j + 1 <= 5)
+                    if (j + 1 < 6)
                         if (game_board[i][j + 1] != null)
                             rst++;
                     if (j - 1 >= 0)
                         if (game_board[i][j - 1] != null)
                             rst++;
-                    if (i + 1 <= 5)
+                    if (i + 1 < 6)
                         if (game_board[i + 1][j] != null)
                             rst++;
                     if (i - 1 >= 0)
@@ -268,10 +300,10 @@ var Engine = function () {
 
                     //console.log(rst);
 
-                    if (rst < 3) {
-                        nbJetonJouable.push(game_board[i][j]);
-                        nbJetonJouable.push(i);
-                        nbJetonJouable.push(j);
+                    if (rst <= 2) {
+                        JetonJouable.push(game_board[i][j]);
+                        JetonJouable.push(i);
+                        JetonJouable.push(j);
                     }
                 }
                 //else
@@ -283,9 +315,9 @@ var Engine = function () {
             //console.log("\n");
         }
 
-        //console.log(nbJetonJouable.length/3);
+        //console.log(JetonJouable.length/3);
 
-        return (nbJetonJouable.length/3);
+        return (JetonJouable.length/3);
     };
 
 };

@@ -39,14 +39,20 @@ PalettoTestCase.prototype.testStory4 = function () {
     g.change_player();
     assertTrue(g.getCurrentPlayer()=="Joueur2");
     assertTrue(g.listOfPossibilities()==5);
-    assertTrue(g.ColorOfNbJetonJouable("blanc"));
-    assertTrue(g.ColorOfNbJetonJouable("bleu"));
-    assertTrue(g.ColorOfNbJetonJouable("noir"));
-    assertTrue(g.ColorOfNbJetonJouable("rouge")==false);
-    assertTrue(g.ColorOfNbJetonJouable("vert")==false);
-    assertTrue(g.ColorOfNbJetonJouable("jaune")==false);
+    assertTrue(g.ColorOfJetonJouable("blanc"));
+    assertTrue(g.ColorOfJetonJouable("bleu"));
+    assertTrue(g.ColorOfJetonJouable("noir"));
+    assertTrue(g.ColorOfJetonJouable("rouge")==false);
+    assertTrue(g.ColorOfJetonJouable("vert")==false);
+    assertTrue(g.ColorOfJetonJouable("jaune")==false);
     g.chooseColor("noir");
     //console.log(g.countColorOfCurrentPlayer());
+    //g.showtabPlayers();
+    //g.showlistOfJetonJouable();
     assertTrue(g.countColorOfCurrentPlayer("noir")==2);
+};
+
+PalettoTestCase.prototype.testStory5 = function () {
+
 };
 
